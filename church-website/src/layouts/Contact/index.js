@@ -35,23 +35,54 @@ class Contact extends Component {
       return;
     }
 
-    const json = JSON.stringify({
-      Name: this.state.name,
-      Email: this.state.email,
-      Message: this.state.message,
-      _subject: '[SCEC] Message Received',
-      _format: 'plain'
-    });
-
     this.setState({
       alert: { show: true, type: 'info', text: 'Sending...'},
-      submitted: true}, this.sendFormData(json))
+      submitted: true}, this.submitForm(this.state.name, this.state.email, this.state.message))
+  }
+
+  submitForm(name, email, message){
+    var destinationEmail = "ccgcsurrey@gmail.com";
+    var form = document.createElement('form');
+    form.setAttribute("action", "https://formspree.io/" + destinationEmail)
+    form.setAttribute("method", "POST")
+
+    // Subject for your email
+    var field = document.createElement("input");
+    field.setAttribute("type", "hidden");
+    field.setAttribute("name", "_subject");
+    field.setAttribute("value", "Contact form submitted");
+    form.appendChild(field);
+
+    // Contact email address        
+    field = document.createElement("input");
+    field.setAttribute("type", "hidden");
+    field.setAttribute("name", "email");
+    field.setAttribute("value", email);
+    form.appendChild(field);
+
+    // Your user's name
+    field = document.createElement("input");              
+    field.setAttribute("type", "hidden");
+    field.setAttribute("name", "name");
+    field.setAttribute("value", name);
+    form.appendChild(field);
+
+    // The text message
+    field = document.createElement("input");              
+    field.setAttribute("type", "hidden");
+    field.setAttribute("name", "message");
+    field.setAttribute("value", message);
+    form.appendChild(field);
+
+    document.body.appendChild(form);    
+    form.submit();
   }
 
   sendFormData(json) {
+
     // Send the form data.
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open('POST', 'https://formspree.io/ccgcsurrey@gmail.com', true);
+    xmlhttp.open('POST', 'https://formspree.io/alankim08@gmail.com', true);
     xmlhttp.setRequestHeader('Accept', 'application/json');
     xmlhttp.setRequestHeader('Content-Type', 'application/json');
 
